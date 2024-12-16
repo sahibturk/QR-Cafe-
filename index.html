@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Delight - Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header and Café Name */
+        .header {
+            background-image: url('https://img.freepik.com/premium-photo/cafeteria-coffee-shop_1133468-6683.jpg?ga=GA1.1.1379253214.1725690200&semt=ais_hybrid');
+            height: 450px;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5em;  /* Increased font size for better visibility */
+            color: #141516;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);  /* Add shadow for emphasis */
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-top: 20px;
+            position: relative;  /* Position for dropdown */
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar input[type="submit"] {
+            padding: 10px 30px;
+            font-size: 1.2em;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-left: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        /* Suggestions Dropdown */
+        .suggestions {
+            position: absolute;
+            z-index: 10;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 60%; /* Match the width of the search input */
+            max-height: 150px;
+            overflow-y: auto;
+            display: none; /* Initially hidden */
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+
+        /* Menu Section */
+        h2 {
+            text-align: center;
+            margin: 50px 0 20px;
+            font-size: 2.5em;
+            color: #2c3e50;
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .menu-item {
+            background-color: #f0f4f8;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .menu-item h3 {
+            margin: 20px 0 10px;
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .menu-item p {
+            font-size: 1em;
+            color: #666;
+            margin: 0 20px 20px;
+        }
+
+        .menu-item .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .reviews-section h2 {
+            margin-bottom: 40px;
+            color: #e74c3c;
+        }
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .review {
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .review p {
+            font-size: 1em;
+            margin-bottom: 20px;
+            color: #bdc3c7;
+        }
+
+        .review .reviewer {
+            font-size: 1.2em;
+            color: #e74c3c;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #34495e;
+            color: white;
+        }
+    </style>
+    <script>
+        const menuItems = [
+            { name: "Classic Burger", element: document.querySelector('h3:contains("Classic Burger")') },
+            { name: "Margherita Pizza", element: document.querySelector('h3:contains("Margherita Pizza")') },
+            { name: "Cappuccino", element: document.querySelector('h3:contains("Cappuccino")') },
+            { name: "Caesar Salad", element: document.querySelector('h3:contains("Caesar Salad")') },
+            { name: "Pasta Alfredo", element: document.querySelector('h3:contains("Pasta Alfredo")') },
+            { name: "Fresh Orange Juice", element: document.querySelector('h3:contains("Fresh Orange Juice")') },
+        ];
+
+        function searchMenu() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const suggestions = document.getElementById('suggestions');
+            suggestions.innerHTML = ''; // Clear previous suggestions
+            suggestions.style.display = 'none'; // Hide the dropdown
+
+            if (input) {
+                // Filter menu items based on input
+                menuItems.forEach(item => {
+                    if (item.name.toLowerCase().includes(input)) {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.className = 'suggestion-item';
+                        suggestionItem.innerText = item.name;
+
+                        // Click event to populate the input
+                        suggestionItem.onclick = function() {
+                            document.getElementById('searchInput').value = item.name;
+                            suggestions.style.display = 'none'; // Hide suggestions after selection
+                        };
+
+                        suggestions.appendChild(suggestionItem);
+                    }
+                });
+
+                if (suggestions.children.length > 0) {
+                    suggestions.style.display = 'block'; // Show dropdown if there are suggestions
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Café Description and Search Bar -->
+    <div class="header">
+        <h1>Café Delight</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for your favorite dishes..." onkeyup="searchMenu()">
+            <input type="submit" value="Search" onclick="searchMenu()">
+            <div class="suggestions" id="suggestions"></div> <!-- Suggestions Dropdown -->
+        </div>
+    </div>
+
+    <!-- Menu Section -->
+    <h2>Our Delicious Menu</h2>
+
+    <div class="menu-container">
+
+        <div class="menu-item">
+            <a href="checkout/classic_burger.html">  <!-- Link to the checkout page -->
+                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&w=500" alt="Burger">
+                <h3>Classic Burger</h3>
+                <p>A juicy burger with fresh lettuce, tomato, and cheese.</p>
+                <div class="price">$8.50</div>
+            </a>
+        </div>
+        
+        <div class="menu-item">
+            <img src="https://img.freepik.com/premium-photo/classic-margherita-pizza-with-tomato-sauce-fresh-mozzarella-basil_209190-112.jpg?ga=GA1.1.1379253214.1725690200&semt=ais_hybrid" alt="Pizza">
+            <h3>Margherita Pizza</h3>
+            <p>Classic pizza topped with fresh mozzarella and basil.</p>
+            <div class="price">$10.00</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/free-photo/cup-coffee-with-heart-drawn-foam_1286-70.jpg?ga=GA1.1.1379253214.1725690200&semt=ais_hybrid" alt="Cappuccino">
+            <h3>Cappuccino</h3>
+            <p>Freshly brewed coffee with steamed milk and foam.</p>
+            <div class="price">$3.50</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/premium-photo/caesar-salad-cozy-setting-yummy-delicious-caesar-salad-gourmet-salad-photography_1020697-672866.jpg?ga=GA1.1.1379253214.1725690200&semt=ais_hybrid" alt="Salad">
+            <h3>Caesar Salad</h3>
+            <p>Fresh romaine lettuce, croutons, and Caesar dressing.</p>
+            <div class="price">$6.00</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/premium-photo/fettuccine-alfredo-pasta-with-white-cream-sauce-plate-italian-food_128711-8982.jpg?ga=GA1.1.1379253214.1725690200&semt=ais_hybrid" alt="Pasta">
+            <h3>Pasta Alfredo</h3>
+            <p>Creamy Alfredo pasta with garlic and Parmesan cheese.</p>
+            <div class="price">$9.50</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/premium-photo/glass-orange-juice-sits-table-with-grapefruit-glass-orange-juice_1257223-34545.jpg?ga=GA1.1.1379253214.1725690200&semt=ais_hybrid" alt="Juice">
+            <h3>Fresh Orange Juice</h3>
+            <p>Freshly squeezed orange juice with no added sugar.</p>
+            <div class="price">$4.00</div>
+        </div>
+
+    </div>
+
+    <!-- Customer Reviews Section -->
+    <div class="reviews-section">
+        <h2>What Our Customers Say</h2>
+        <div class="reviews">
+            <div class="review">
+                <p>"The best burger I've had in years. Super fresh ingredients, and the service was fantastic!"</p>
+                <div class="reviewer">- Sarah J.</div>
+            </div>
+            <div class="review">
+                <p>"I love their coffee and atmosphere. A great place to relax with friends or do some work."</p>
+                <div class="reviewer">- John M.</div>
+            </div>
+            <div class="review">
+                <p>"The pasta Alfredo is to die for! Creamy, cheesy, and delicious. Highly recommend!"</p>
+                <div class="reviewer">- Emily W.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Café Delight. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
